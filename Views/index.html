@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title> Gestión de Vehículos</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#006763",
+              "outline": "#717785",
+              "tertiary": "#006769",
+              "outline-variant": "#c1c6d5",
+              "on-secondary-fixed-variant": "#4f4800",
+              "tertiary-fixed-dim": "#51d9dc",
+              "primary-fixed": "#7af6ee",
+              "surface": "#f9f9ff",
+              "on-secondary-container": "#6d6400",
+              "surface-tint": "#006a65",
+              "secondary-fixed": "#f8e535",
+              "surface-dim": "#d8dae3",
+              "on-error-container": "#93000a",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#e6e8f1",
+              "on-surface-variant": "#414753",
+              "secondary-fixed-dim": "#dbc90a",
+              "on-tertiary": "#ffffff",
+              "on-primary": "#ffffff",
+              "tertiary-container": "#008284",
+              "primary-container": "#00837d",
+              "inverse-on-surface": "#eff0fa",
+              "background": "#f9f9ff",
+              "on-tertiary-fixed": "#002020",
+              "surface-variant": "#e0e2ec",
+              "on-secondary": "#ffffff",
+              "on-error": "#ffffff",
+              "on-background": "#181c22",
+              "on-tertiary-container": "#f3ffff",
+              "on-primary-fixed": "#00201e",
+              "secondary": "#695f00",
+              "surface-container": "#ecedf7",
+              "surface-container-low": "#f2f3fd",
+              "inverse-primary": "#5ad9d2",
+              "inverse-surface": "#2d3038",
+              "on-tertiary-fixed-variant": "#004f51",
+              "tertiary-fixed": "#73f6f9",
+              "on-primary-fixed-variant": "#00504c",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#f5e231",
+              "primary-fixed-dim": "#5ad9d2",
+              "on-surface": "#181c22",
+              "on-secondary-fixed": "#1f1c00",
+              "surface-container-highest": "#e0e2ec",
+              "on-primary-container": "#f3fffd",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased">
+
+<header class="fixed top-0 z-50 w-full bg-white dark:bg-slate-900 shadow-sm border-b border-slate-200 dark:border-slate-800 flex justify-between items-center px-6 py-3">
+<div class="flex items-center gap-8">
+<span class="text-xl font-bold text-teal-600 dark:text-teal-400">Gestor de Vehiculos</span>
+</div>
+
+</header>
+<aside class="fixed left-0 top-0 hidden lg:flex flex-col h-full w-64 bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 z-40 pt-20">
+<div class="px-6 py-4">
+<p class="text-xs text-slate-500 uppercase tracking-widest font-semibold">Administrador</p>
+</div>
+<div class="p-6">
+<button class="w-full py-3 bg-secondary-container text-on-secondary-container font-bold rounded-lg shadow-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                Nuevo Vehículo
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas --><main class="lg:ml-64 pt-20 pb-12 px-6 lg:px-10 min-h-screen">
+<!-- Header Section -->
+<div class="mb-8">
+<h1 class="text-3xl font-extrabold text-on-background tracking-tight font-headline">Panel de Control</h1>
+<p class="text-outline">Bienvenido al sistema de administración de vehículos</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+<section class="lg:col-span-8 bg-surface-container-low rounded-xl p-6 shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">search</span>
+<h2 class="font-bold text-lg">Módulo de Búsqueda</h2>
+</div>
+<!-- Search Tabs -->
+<div class="flex border-b border-outline-variant mb-6">
+<button class="px-6 py-2 border-b-2 border-primary text-primary font-semibold text-sm">Búsqueda Global</button>
+</div>
+<!-- Search Inputs -->
+<div class="space-y-4">
+<div id="tab-global">
+<label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Buscar</label>
+<div class="relative">
+<input id="txtBuscarGlobal" class="w-full bg-white border border-outline-variant rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="Ingrese marca, modelo o placa..." type="text"/>
+<button id="btnBuscarGlobal" class="absolute right-2 top-2 bg-primary text-white px-4 py-1.5 rounded-md text-sm font-bold hover:opacity-90">Buscar</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div>
+<label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Búsqueda por Placa</label>
+<div class="flex gap-2">
+<input id="txtBuscarPlaca" class="w-full bg-white border border-outline-variant rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary outline-none" placeholder="ABC-1234" type="text"/>
+<button id="btnBuscarPlaca" class="bg-secondary-container text-on-secondary-container px-4 py-2.5 rounded-lg font-bold text-sm">Validar</button>
+</div>
+</div>
+<div>
+<label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Búsqueda por Marca</label>
+<div class="flex gap-2">
+<input id="txtBuscarMarca" class="w-full bg-white border border-outline-variant rounded-lg py-2.5 px-4 focus:ring-2 focus:ring-primary outline-none" placeholder="Ej: Toyota" type="text"/>
+<button id="btnBuscarMarca" class="bg-secondary-container text-on-secondary-container px-4 py-2.5 rounded-lg font-bold text-sm">Filtrar</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="lg:col-span-4 bg-primary-container text-on-primary-container rounded-xl p-6 shadow-md overflow-hidden relative">
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-bold text-lg">Resumen de Inventario</h2>
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<div class="space-y-4">
+<div class="glass-card p-4 rounded-lg">
+<h3 class="font-bold text-on-primary-container">Gestión Total</h3>
+<p class="text-xs opacity-80 mt-1">Sincronizado con Base de Datos</p>
+<div class="mt-3 inline-block px-2 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-black rounded uppercase">Activo via AJAX</div>
+</div>
+<div class="glass-card p-4 rounded-lg">
+<p class="text-sm">Utilizando arquitectura MVC Multicapa para la gestión de vehículos.</p>
+</div>
+</div>
+</div>
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+</section>
+
+<section class="lg:col-span-12 bg-white rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+<div class="p-6 border-b border-outline-variant/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="font-bold text-lg text-on-background">Listado General de Vehículos</h2>
+<p class="text-sm text-outline">Mostrando registros actuales en inventario</p>
+</div>
+<button id="btnCargarTodo" class="text-primary font-bold text-sm flex items-center gap-1 hover:underline">
+<span class="material-symbols-outlined text-sm">refresh</span> Refrescar Tabla
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container text-on-surface-variant text-xs font-bold uppercase tracking-widest">
+<th class="px-6 py-4">Marca</th>
+<th class="px-6 py-4">Modelo</th>
+<th class="px-6 py-4">Placa</th>
+<th class="px-6 py-4">Año</th>
+<th class="px-6 py-4">Color</th>
+<th class="px-6 py-4 text-right">Acciones</th>
+</tr>
+</thead>
+<tbody id="tablaVehiculosBody" class="divide-y divide-outline-variant/20">
+<!-- Cargado dinámicamente -->
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+
+<!-- Modal Vehículo (Add/Edit) -->
+<div id="modalVehiculo" class="fixed inset-0 z-[60] hidden overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity bg-slate-900 bg-opacity-75" aria-hidden="true" onclick="cerrarModal()"></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div class="inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-xl shadow-xl sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-xl font-bold leading-6 text-on-background" id="modal-title">Gestión de Vehículo</h3>
+                    <button onclick="cerrarModal()" class="text-outline hover:text-on-background">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <form id="formVehiculo" class="space-y-4">
+                    <input type="hidden" id="placa_original">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Marca</label>
+                            <input id="marca" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Modelo</label>
+                            <input id="modelo" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Placa</label>
+                            <input id="placa" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Chasis</label>
+                            <input id="chasis" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Año</label>
+                            <input id="anio" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="number" min="1900" max="2026"/>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-outline mb-1 uppercase tracking-wider">Color</label>
+                            <input id="color" required class="w-full bg-surface-container-low border border-outline-variant rounded-lg py-2 px-3 focus:ring-2 focus:ring-primary outline-none" type="text"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-8 flex gap-3">
+                <button onclick="cerrarModal()" class="flex-1 px-4 py-2 text-sm font-bold text-outline bg-surface-container-high rounded-lg hover:bg-outline-variant/30">Cancelar</button>
+                <button onclick="guardarVehiculo()" class="flex-1 px-4 py-2 text-sm font-bold text-white bg-primary rounded-lg shadow-sm hover:opacity-90">Guardar Registro</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Eliminar -->
+<div id="modalEliminar" class="fixed inset-0 z-[60] hidden overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen px-4">
+        <div class="fixed inset-0 bg-slate-900 bg-opacity-75" onclick="cerrarModalEliminar()"></div>
+        <div class="relative bg-white rounded-xl shadow-xl max-w-sm w-full p-6 text-center">
+            <div class="w-16 h-16 bg-error-container text-error rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-3xl">delete_forever</span>
+            </div>
+            <h3 class="text-xl font-bold mb-2">¿Eliminar Vehículo?</h3>
+            <p class="text-outline text-sm mb-6">Esta acción no se puede deshacer. Se borrará permanentemente de la base de datos.</p>
+            <div class="flex gap-3">
+                <button onclick="cerrarModalEliminar()" class="flex-1 px-4 py-2 text-sm font-bold text-outline bg-surface-container-high rounded-lg">Cancelar</button>
+                <button id="btnConfirmarEliminar" class="flex-1 px-4 py-2 text-sm font-bold text-white bg-error rounded-lg shadow-sm">Sí, Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const API_URL = "../Controllers/api.php";
+    let vehiculoActual = null;
+
+    $(document).ready(function() {
+        cargarVehiculos();
+
+        // Botón Nuevo
+        $(".lg\\:ml-64 aside button, .pt-20 button:contains('add')").click(function() {
+            abrirModal();
+        });
+
+        // Eventos Búsqueda
+        $("#btnBuscarGlobal").click(() => realizarBusqueda({ txtBuscar: $("#txtBuscarGlobal").val() }));
+        $("#btnBuscarPlaca").click(() => realizarBusqueda({ txtPlaca: $("#txtBuscarPlaca").val() }));
+        $("#btnBuscarMarca").click(() => realizarBusqueda({ txtMarca: $("#txtBuscarMarca").val() }));
+        $("#btnCargarTodo").click(() => cargarVehiculos());
+    });
+
+    function cargarVehiculos() {
+        $.ajax({
+            url: API_URL,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                renderizarTabla(data);
+            },
+            error: function() {
+                console.error("Error cargando vehículos");
+            }
+        });
+    }
+
+    function realizarBusqueda(params) {
+        $.ajax({
+            url: API_URL,
+            method: "GET",
+            data: params,
+            dataType: "json",
+            success: function(data) {
+                renderizarTabla(data);
+            }
+        });
+    }
+
+    function renderizarTabla(data) {
+        const $tbody = $("#tablaVehiculosBody");
+        $tbody.empty();
+
+        if (!data || data.length === 0) {
+            $tbody.append('<tr><td colspan="6" class="px-6 py-10 text-center text-outline italic">No se encontraron registros activos</td></tr>');
+            return;
+        }
+
+        data.forEach(v => {
+            const tr = `
+                <tr class="hover:bg-surface-container-low transition-colors group">
+                    <td class="px-6 py-4 font-semibold text-on-surface">${v.marca}</td>
+                    <td class="px-6 py-4 text-outline">${v.modelo}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 bg-secondary-container text-on-secondary-container font-mono text-xs font-bold rounded">${v.placa}</span>
+                    </td>
+                    <td class="px-6 py-4 text-outline">${v.anio}</td>
+                    <td class="px-6 py-4 text-outline">${v.color}</td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onclick='abrirModal(${JSON.stringify(v)})' class="p-2 text-primary hover:bg-primary-container/20 rounded-lg">
+                                <span class="material-symbols-outlined">edit</span>
+                            </button>
+                            <button onclick="confirmarEliminar('${v.placa}')" class="p-2 text-error hover:bg-error-container/50 rounded-lg">
+                                <span class="material-symbols-outlined">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            $tbody.append(tr);
+        });
+    }
+
+    function abrirModal(datos = null) {
+        $("#formVehiculo")[0].reset();
+        if (datos) {
+            $("#modal-title").text("Editar Vehículo");
+            $("#placa_original").val(datos.placa);
+            $("#marca").val(datos.marca);
+            $("#modelo").val(datos.modelo);
+            $("#placa").val(datos.placa);
+            $("#chasis").val(datos.chasis);
+            $("#anio").val(datos.anio);
+            $("#color").val(datos.color);
+            vehiculoActual = datos.placa;
+        } else {
+            $("#modal-title").text("Nuevo Vehículo");
+            $("#placa_original").val("");
+            vehiculoActual = null;
+        }
+        $("#modalVehiculo").removeClass("hidden");
+    }
+
+    function cerrarModal() {
+        $("#modalVehiculo").addClass("hidden");
+    }
+
+    function guardarVehiculo() {
+        const placaOriginal = $("#placa_original").val();
+        const action = placaOriginal ? "update" : "insert";
+        
+        const data = {
+            action: action,
+            marca: $("#marca").val(),
+            modelo: $("#modelo").val(),
+            placa: $("#placa").val(),
+            chasis: $("#chasis").val(),
+            anio: $("#anio").val(),
+            color: $("#color").val()
+        };
+
+        if (placaOriginal) {
+            data.placa_original = placaOriginal;
+        }
+
+        $.ajax({
+            url: API_URL,
+            method: "GET", 
+            data: data,
+            dataType: "json",
+            success: function(response) {
+                cerrarModal();
+                cargarVehiculos();
+            },
+            error: function() {
+                alert("Error al procesar la solicitud");
+            }
+        });
+    }
+
+    function confirmarEliminar(placa) {
+        $("#modalEliminar").removeClass("hidden");
+        $("#btnConfirmarEliminar").off("click").on("click", function() {
+            eliminarVehiculo(placa);
+        });
+    }
+
+    function cerrarModalEliminar() {
+        $("#modalEliminar").addClass("hidden");
+    }
+
+    function eliminarVehiculo(placa) {
+        $.ajax({
+            url: API_URL,
+            method: "GET",
+            data: { action: 'delete', placa: placa },
+            dataType: "json",
+            success: function(response) {
+                cerrarModalEliminar();
+                cargarVehiculos();
+            }
+        });
+    }
+</script>
+</body></html>
